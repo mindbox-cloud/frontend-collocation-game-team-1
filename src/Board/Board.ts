@@ -1,7 +1,6 @@
 import {Cell} from '~/Cell/Cell'
-import { Good } from '~/Good/Good'
-
-
+import {Good} from '~/Good/Good'
+import {Queen} from '~/Queen/Queen'
 
 interface BoardParams {
   canvas: HTMLCanvasElement
@@ -25,13 +24,12 @@ export class Board {
   private goodsCount: number
   private queenDeathSteps: number
   private antDeathSteps: number
-  private goods: Good[] = []
 
   constructor(params: BoardParams) {
     this.queensCount = params.queensCount
     this.createAntWithFoodProbability = params.createAntWithFoodProbability
     this.createAntWithoutFoodProbability = params.createAntWithoutFoodProbability
-    this.goodsCount = params.goodsCount    
+    this.goodsCount = params.goodsCount
     this.queenDeathSteps = params.queenDeathSteps
     this.antDeathSteps = params.antDeathSteps
     this._canvas = params.canvas
@@ -44,33 +42,42 @@ export class Board {
     this._canvas.height = this._cols * this._cellSize
     this._fillBoard()
     this._drawBoard()
-    this.createInitialCells()
+    this.createInitialEntities(this.queensCount, 'queen')
+    this.createInitialEntities(this.goodsCount, 'good')
   }
 
   get board(): Cell[][] {
     return this._board
   }
 
-  createInitialCells() {
-    const cellsToReplace: Cell[] = [];
-    for (let i = 0; i < this.goodsCount; i++) {
-      let randomRow: number, randomCol: number;
+  private createInitialEntities(count: number, entityType: 'queen' | 'good') {
+    const cellsToReplace: Cell[] = []
+    for (let i = 0; i < count; i++) {
+      let randomRow: number, randomCol: number
       do {
-        randomRow = Math.floor(Math.random() * this._rows);
-        randomCol = Math.floor(Math.random() * this._cols);
-      } while (cellsToReplace.find(cell => cell.x === randomRow * this._cellSize && cell.y === randomCol * this._cellSize));
-      cellsToReplace.push(this._board[randomRow][randomCol]);
+        randomRow = Math.floor(Math.random() * this._rows)
+        randomCol = Math.floor(Math.random() * this._cols)
+      } while (cellsToReplace.find(cell => cell.i === randomRow && cell.j === randomCol))
+      if (this._board[randomRow][randomCol].agent !== null) {
+        i--
+        continue
+      }
+      cellsToReplace.push(this._board[randomRow][randomCol])
     }
-    cellsToReplace.forEach(cell => {
-      const goods = new Good(cell.x, cell.y, this._cellSize, cell.i, cell.j);
-      goods.drawGood(this._ctx);
-      this._board[cell.j][cell.i] = goods;
-    });
-    console.log(this._board, cellsToReplace);
-    
+    cellsToReplace.forEach((cell) => {
+        let entity: Good | Queen;
+        if (entityType === 'queen') {
+          entity = new Queen(cell.x, cell.y, this._cellSize, cell.i, cell.j);
+          entity.drawQueen(this._ctx);
+        } else {
+          entity = new Good(cell.x, cell.y, this._cellSize, cell.i, cell.j);
+          entity.drawGood(this._ctx);
+        }
+        this._board[cell.i][cell.j] = entity;
+      });
   }
 
-  _updateBoardSize(size: { n: number, m: number }) {
+  _updateBoardSize(size: {n: number; m: number}) {
     this._rows = size.n
     this._cols = size.m
   }
@@ -79,7 +86,7 @@ export class Board {
     for (let i = 0; i < this._rows; i++) {
       this._board[i] = []
       for (let j = 0; j < this._cols; j++) {
-        this._board[i][j] = new Cell(i * this._cellSize, j * this._cellSize, this._cellSize, i, j)
+        this._board[i][j] = new Cell(j * this._cellSize, i * this._cellSize, this._cellSize, i, j)
       }
     }
   }

@@ -17,8 +17,9 @@ export class AntWorker extends Cell  {
     
     private _isAlive: boolean = true;
 
-    constructor(x: number, y: number, size: number) {
-        super(x, y, size);
+    constructor(x: number, y: number, size: number, i: number, j: number) {
+        super(x, y, size, i, j);
+        this.agent = 'ant'
     }
 
     // Геттеры
