@@ -1,9 +1,239 @@
 <html>
     <head>
+        <style>
+            #crazyCanvas {
+                display: block;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -1;
+            }
+        </style>
       <script type="module" crossorigin src="./index.js"></script>
       <link rel="modulepreload" crossorigin href="./main.js">
     </head>
     <body>
         <div id="app"></div>
+        <canvas id="crazyCanvas"></canvas>
+
+        <script>
+            const canvas = document.getElementById('crazyCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Устанавливаем размер canvas на весь экран
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const text = "Муравьи и матки!";
+            const chars = text.split('');
+            
+            let time = 0;
+            const particles = [];
+            const antCount = 7;
+            
+            // Создаем частицы для каждого символа
+            chars.forEach((char, i) => {
+                particles.push({
+                    char,
+                    angle: (i / chars.length) * Math.PI * 2,
+                    radius: 100 + Math.random() * 50,
+                    speed: 0.01 + Math.random() * 0.03,
+                    size: 20 + Math.random() * 30,
+                    color: `hsl(${Math.random() * 360}, 100%, 50%)`,
+                    wobble: Math.random() * 10,
+                    wobbleSpeed: Math.random() * 0.1
+                });
+            });
+            
+            // Создаем муравьев
+            const ants = [];
+            for (let i = 0; i < antCount; i++) {
+                ants.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: 10 + Math.random() * 30,
+                    speed: 1 + Math.random() * 3,
+                    angle: Math.random() * Math.PI * 2,
+                    color: `hsl(${Math.random() * 360}, 100%, 50%)`,
+                    legs: Array(6).fill().map(() => Math.random() * 0.5 + 0.5),
+                    changeDir: 0
+                });
+            }
+            
+            function drawAnt(x, y, size, rotation, color) {
+                ctx.save();
+                ctx.translate(x, y);
+                ctx.rotate(rotation);
+                
+                // Тело из трех частей
+                ctx.fillStyle = color;
+                
+                // Голова
+                ctx.beginPath();
+                ctx.ellipse(-size * 0.8, 0, size * 0.3, size * 0.2, 0, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Грудь
+                ctx.beginPath();
+                ctx.ellipse(0, 0, size * 0.4, size * 0.3, 0, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Брюшко
+                ctx.beginPath();
+                ctx.ellipse(size * 0.8, 0, size * 0.6, size * 0.4, 0, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Ноги (6 штук)
+                ctx.strokeStyle = color;
+                ctx.lineWidth = size * 0.1;
+                
+                for (let i = -1; i <= 1; i += 2) {
+                    // Передние ноги
+                    ctx.beginPath();
+                    ctx.moveTo(-size * 0.3, i * size * 0.1);
+                    ctx.lineTo(-size * 0.8, i * size * 0.5);
+                    ctx.stroke();
+                    
+                    // Средние ноги
+                    ctx.beginPath();
+                    ctx.moveTo(0, i * size * 0.1);
+                    ctx.lineTo(-size * 0.4, i * size * 0.6);
+                    ctx.stroke();
+                    
+                    // Задние ноги
+                    ctx.beginPath();
+                    ctx.moveTo(size * 0.5, i * size * 0.1);
+                    ctx.lineTo(size * 0.1, i * size * 0.7);
+                    ctx.stroke();
+                }
+                
+                // Усики
+                ctx.beginPath();
+                ctx.moveTo(-size * 0.8, 0);
+                ctx.lineTo(-size * 1.2, -size * 0.2);
+                ctx.moveTo(-size * 0.8, 0);
+                ctx.lineTo(-size * 1.2, size * 0.2);
+                ctx.stroke();
+                
+                ctx.restore();
+            }
+            
+            function animate() {
+                // Психоделический фон
+                const gradient = ctx.createRadialGradient(
+                    centerX, centerY, 0,
+                    centerX, centerY, Math.max(canvas.width, canvas.height) / 2
+                );
+                gradient.addColorStop(0, `hsl(${time % 360}, 100%, 50%)`);
+                gradient.addColorStop(1, `hsl(${(time + 180) % 360}, 100%, 30%)`);
+                
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Рисуем частицы-символы
+                particles.forEach((p, i) => {
+                    p.angle += p.speed;
+                    p.radius = 100 + Math.sin(time * 0.02 + i) * 50;
+                    p.wobble = Math.sin(time * p.wobbleSpeed) * 20;
+                    
+                    const x = centerX + Math.cos(p.angle) * p.radius;
+                    const y = centerY + Math.sin(p.angle) * p.radius;
+                    
+                    ctx.save();
+                    ctx.translate(x, y);
+                    ctx.rotate(p.angle + time * 0.05);
+                    
+                    // Случайные искажения
+                    ctx.transform(
+                        1 + Math.sin(time * 0.1 + i) * 0.3,
+                        Math.cos(time * 0.07 + i) * 0.2,
+                        Math.sin(time * 0.08 + i) * 0.2,
+                        1 + Math.cos(time * 0.12 + i) * 0.3,
+                        0, 0
+                    );
+                    
+                    ctx.font = `bold ${p.size + p.wobble}px Arial`;
+                    ctx.fillStyle = `hsl(${(time * 2 + i * 30) % 360}, 100%, 50%)`;
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(p.char, 0, 0);
+                    
+                    ctx.restore();
+                });
+                
+                // Рисуем безумных муравьев
+                ants.forEach(ant => {
+                    // Движение муравья
+                    ant.x += Math.cos(ant.angle) * ant.speed;
+                    ant.y += Math.sin(ant.angle) * ant.speed;
+                    
+                    // Отскок от границ
+                    if (ant.x < 0 || ant.x > canvas.width || ant.y < 0 || ant.y > canvas.height) {
+                        ant.angle = Math.atan2(centerY - ant.y, centerX - ant.x) + (Math.random() - 0.5) * 2;
+                    }
+                    
+                    // Случайное изменение направления
+                    ant.changeDir--;
+                    if (ant.changeDir <= 0) {
+                        ant.angle += (Math.random() - 0.5) * 2;
+                        ant.changeDir = Math.random() * 100 + 50;
+                    }
+                    
+                    // Рисуем муравья
+                    drawAnt(
+                        ant.x, 
+                        ant.y, 
+                        ant.size + Math.sin(time * 0.1) * 5, 
+                        ant.angle + Math.sin(time * 0.2) * 2,
+                        `hsl(${(time * 3 + ant.x) % 360}, 100%, 50%)`
+                    );
+                });
+                
+                // Центральный взрыв
+                ctx.save();
+                ctx.translate(centerX, centerY);
+                for (let i = 0; i < 20; i++) {
+                    const a = time * 0.1 + i * 0.3;
+                    const r = 50 + Math.sin(time * 0.05 + i) * 30;
+                    ctx.rotate(a);
+                    ctx.fillStyle = `hsl(${(time * 5 + i * 20) % 360}, 100%, 50%)`;
+                    ctx.beginPath();
+                    ctx.arc(r, 0, 5 + Math.sin(time * 0.2 + i) * 3, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                ctx.restore();
+                
+                time += 1;
+                requestAnimationFrame(animate);
+            }
+            
+            // Реакция на движение мыши
+            canvas.addEventListener('mousemove', (e) => {
+                ants.forEach(ant => {
+                    const dx = e.clientX - ant.x;
+                    const dy = e.clientY - ant.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (dist < 200) {
+                        ant.angle = Math.atan2(ant.y - e.clientY, ant.x - e.clientX);
+                        ant.speed = 5;
+                    }
+                });
+            });
+            
+            animate();
+            
+            // Реакция на изменение размера окна
+            window.addEventListener('resize', () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                centerX = canvas.width / 2;
+                centerY = canvas.height / 2;
+            });
+        </script>
     </body>
 </html>
