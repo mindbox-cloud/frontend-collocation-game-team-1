@@ -1,5 +1,6 @@
 {
   "name": "aaa-game",
+  "homepage": "https://mindbox-cloud.github.io/frontend-collocation-game-team-1/",
   "version": "1.0.0",
   "description": "test",
   "type": "module",
@@ -9,7 +10,9 @@
     "dev": "NODE_ENV=development vite",
     "test": "jest",
     "test:watch": "jest --watch",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "devDependencies": {
     "@eslint/compat": "1.2.8",
@@ -22,6 +25,7 @@
     "eslint-config-prettier": "10.1.2",
     "eslint-plugin-perfectionist": "4.11.0",
     "eslint-plugin-prettier": "5.2.6",
+    "gh-pages": "^6.3.0",
     "globals": "16.0.0",
     "jest": "29.7.0",
     "jest-environment-jsdom": "29.7.0",
