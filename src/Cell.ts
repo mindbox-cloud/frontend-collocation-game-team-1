@@ -43,10 +43,14 @@ export class Cell {
     public set size(size: number) {
         this._size = size;
     }
-
+    
     public draw(ctx: CanvasRenderingContext2D): void {
         ctx.fillStyle = this._color;
         ctx.fillRect(this._x, this._y, this._size, this._size);
+
+        ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)';
+        ctx.strokeRect(this._x, this._y, this._size, this._size);
+
         ctx.font = 'bold 16px Arial';
         ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
         ctx.fillText(`${this._x},${this._y}`, this._x + 2, this._y + 16);
