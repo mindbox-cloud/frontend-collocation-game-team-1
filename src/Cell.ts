@@ -1,4 +1,4 @@
-type CellColor = 'red' | 'green' | 'blue' | 'yellow' | 'white';
+export type CellColor = 'red' | 'green' | 'blue' | 'yellow' | 'white';
 
 export class Cell {
     private _color: CellColor = 'white';
