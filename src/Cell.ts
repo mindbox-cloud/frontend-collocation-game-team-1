@@ -1,28 +1,15 @@
 type CellColor = 'red' | 'green' | 'blue' | 'yellow' | 'none';
 
-class CellAgent {
-    private _cell: Cell;
-
-    constructor(cell: Cell) {
-        this._cell = cell;
-    }
-
-    public get cell(): Cell {
-        return this._cell;
-    }
-
-    public set cell(cell: Cell) {
-        this._cell = cell;
-    }
-}
-
 export class Cell {
-    private _color: CellColor;
-    private _agent: CellAgent | null;
+    private _color: CellColor = 'blue';
+    private _x: number;
+    private _y: number;
+    private _size: number;
 
-    constructor(color: CellColor = 'none', agent: CellAgent | null = null) {
-        this._color = color;
-        this._agent = agent;
+    constructor( x: number, y: number, size: number = 20) {
+        this._x = x;
+        this._y = y;
+        this._size = size;
     }
 
     public get color(): CellColor {
@@ -33,11 +20,32 @@ export class Cell {
         this._color = color;
     }
 
-    public get agent(): CellAgent | null {
-        return this._agent;
+    public get x(): number {
+        return this._x;
     }
 
-    public set agent(agent: CellAgent | null) {
-        this._agent = agent;
+    public set x(x: number) {
+        this._x = x;
+    }
+
+    public get y(): number {
+        return this._y;
+    }
+
+    public set y(y: number) {
+        this._y = y;
+    }
+
+    public get size(): number {
+        return this._size;
+    }
+
+    public set size(size: number) {
+        this._size = size;
+    }
+
+    public draw(ctx: CanvasRenderingContext2D): void {
+        ctx.fillStyle = this._color;
+        ctx.fillRect(this._x, this._y, this._size, this._size);
     }
 }
