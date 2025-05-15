@@ -11,7 +11,7 @@ export class Cell {
     public j: number;
     public agent: 'queen' | 'ant' | 'good'|  null = null;
 
-    constructor( x: number, y: number, size: number = 50, i: number, j: number) {
+    constructor( x: number, y: number, size: number = 70, i: number, j: number) {
         this.i = i;
         this.j = j;
         this._x = x;

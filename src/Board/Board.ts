@@ -16,7 +16,7 @@ export class Board {
   _board: Cell[][] = []
   _rows: number = 100
   _cols: number = 100
-  _cellSize: number = 50
+  _cellSize: number = 70
   _ctx: CanvasRenderingContext2D
   private queensCount: number
   private createAntWithFoodProbability: number
@@ -75,6 +75,20 @@ export class Board {
         }
         this._board[cell.i][cell.j] = entity;
       });
+  }
+
+  public step() {
+    this._board.forEach((row) => {
+      row.forEach((cell) => {
+        if (cell.agent === 'good') {
+            if (cell.itemsCount < 10) {
+                cell.incrementItemsCount()
+            }
+
+            cell.drawGood(this._ctx);
+        }
+      });
+    });
   }
 
   _updateBoardSize(size: {n: number; m: number}) {
