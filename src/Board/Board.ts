@@ -1,4 +1,7 @@
 import {Cell} from '~/Cell/Cell'
+import { Good } from '~/Good/Good'
+
+
 
 interface BoardParams {
   canvas: HTMLCanvasElement
@@ -14,7 +17,7 @@ export class Board {
   _board: Cell[][] = []
   _rows: number = 100
   _cols: number = 100
-  _cellSize: number = 20
+  _cellSize: number = 50
   _ctx: CanvasRenderingContext2D
   private queensCount: number
   private createAntWithFoodProbability: number
@@ -22,6 +25,7 @@ export class Board {
   private goodsCount: number
   private queenDeathSteps: number
   private antDeathSteps: number
+  private goods: Good[] = []
 
   constructor(params: BoardParams) {
     this.queensCount = params.queensCount
@@ -46,7 +50,16 @@ export class Board {
     return this._board
   }
 
-  _updateBoardSize(size: {n: number; m: number}) {
+  private updateGoods() {
+    if (!this.goods.length) {
+        for (let i = 0; i < this.goodsCount; i++) {
+
+            this.goods.push(new Good(Math.random() * this._rows * this._cellSize, Math.random() * this._cols * this._cellSize, this._cellSize))
+        }
+    }
+  }
+
+  _updateBoardSize(size: { n: number, m: number }) {
     this._rows = size.n
     this._cols = size.m
   }
@@ -61,11 +74,18 @@ export class Board {
   }
 
   _drawBoard() {
+    this.updateGoods()
+    console.log(this.goods)
+
     this._ctx.beginPath()
     for (let i = 0; i < this._board.length; i++) {
       for (let j = 0; j < this._board[i].length; j++) {
         this._board[i][j].draw(this._ctx)
       }
+    }
+
+    for (let i = 0; i < this.goods.length; i++) {
+      this.goods[i].draw(this._ctx)
     }
   }
 }

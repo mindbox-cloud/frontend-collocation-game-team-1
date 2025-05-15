@@ -1,5 +1,4 @@
 import {Board} from '~/Board/Board'
-import {CellColor} from '~/Cell/Cell'
 import {sizeUpdater} from '~/components/sizeUpdater'
 import {DEFAULT_SIZE} from '~/constants'
 export class Game {
@@ -43,7 +42,7 @@ export class Game {
       initial: DEFAULT_SIZE,
       onChange: size => this.board.init({size}),
     })
-    this.container.appendChild(sizeUpdaterElement)
+    this.container.prepend(sizeUpdaterElement)
 
     this.isRunning = true
 
@@ -64,28 +63,7 @@ export class Game {
   }
 
   private tick(): void {
-    // Here you can implement the logic for each tick
-    // For example, updating cell states, checking game rules, etc.
-    this.updateCells()
     this.board._drawBoard()
-  }
-
-  // TODO: Remove after self-implementation
-  private updateCells(): void {
-    const cells = this.board.board
-
-    // Example: Randomly change some cell colors
-    const colors: Array<CellColor> = ['red', 'green', 'blue', 'yellow', 'white']
-
-    for (let i = 0; i < cells.length; i++) {
-      for (let j = 0; j < cells[i].length; j++) {
-        if (Math.random() < 0.1) {
-          // 10% chance to change color
-          const randomColor = colors[Math.floor(Math.random() * colors.length)]
-          cells[i][j].color = randomColor
-        }
-      }
-    }
   }
 
   public setTickInterval(interval: number): void {

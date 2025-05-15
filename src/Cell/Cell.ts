@@ -6,7 +6,7 @@ export class Cell {
     private _y: number;
     private _size: number;
 
-    constructor( x: number, y: number, size: number = 20) {
+    constructor( x: number, y: number, size: number = 50) {
         this._x = x;
         this._y = y;
         this._size = size;
