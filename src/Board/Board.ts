@@ -19,10 +19,11 @@ export class Board {
     }
 
     fillBoard() {
+        const size = 40
         for (let i = 0; i < this._rows; i++) {
-            this._board[i] = []
+            this._board[i ] = []
             for (let j = 0; j < this._cols; j++) {
-                this._board[i][j] = new Cell(i, j)
+                this._board[i][j] = new Cell(i * size, j * size, size)
             }
         }
     }
