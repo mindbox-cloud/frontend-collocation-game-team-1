@@ -1,7 +1,7 @@
-type CellColor = 'red' | 'green' | 'blue' | 'yellow' | 'none';
+type CellColor = 'red' | 'green' | 'blue' | 'yellow' | 'white';
 
 export class Cell {
-    private _color: CellColor = 'blue';
+    private _color: CellColor = 'white';
     private _x: number;
     private _y: number;
     private _size: number;
@@ -52,7 +52,7 @@ export class Cell {
         ctx.strokeRect(this._x, this._y, this._size, this._size);
 
         ctx.font = 'bold 10px Arial';
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.9)';
         ctx.fillText(`${this._x},${this._y}`, this._x + 2, this._y + 16);
     }
 }
