@@ -6,6 +6,13 @@ export class Queen extends Cell {
     this.agent = 'queen'
   }
 
+  public drawQueen(ctx: CanvasRenderingContext2D): void {
+    ctx.beginPath();
+    ctx.fillStyle = 'brown';
+    ctx.arc(this.x + this.size/4, this.y + this.size/4, this.size/4, 0, Math.PI * 2);
+    ctx.fill();
+}
+
   private checkForFood(): void {}
 
   createAnt(): void {
