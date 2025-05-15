@@ -16,6 +16,9 @@ export default defineConfig(() => {
         ],
       }),
     ],
+    server: {
+      port: 3000,
+    },
     // https://vitejs.dev/guide/build.html
     build: {
       target: 'es2019',

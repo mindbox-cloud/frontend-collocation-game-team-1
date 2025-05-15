@@ -6,6 +6,7 @@
   "main": "dist/main.js",
   "scripts": {
     "build": "vite build",
+    "dev": "NODE_ENV=development vite",
     "test": "jest",
     "test:watch": "jest --watch",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
