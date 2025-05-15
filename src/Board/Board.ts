@@ -18,6 +18,10 @@ export class Board {
         return this._board
     }
 
+    updateBoardSize(size: number) {
+
+    }
+
     fillBoard() {
         const size = 40
         for (let i = 0; i < this._rows; i++) {
