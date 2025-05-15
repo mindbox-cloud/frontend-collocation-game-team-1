@@ -14,19 +14,21 @@ export class Queen extends Cell {
     }
 
     public tick(): void {   
-        // super.tick();
         if (!this.isAlive()) return;
+        
+        // Уменьшаем количество еды со временем
+        this._foodCount = Math.max(0, this._foodCount - 1);
     }
 
     public createAnt(hasNearbyFood: boolean, createAntWithFoodProb: number, createAntWithoutFoodProb: number, maxStepsWithoutFood: number): AntWorker | null {
         // Если есть еда рядом, создаём муравья с вероятностью P1
         if (hasNearbyFood && Math.random() < createAntWithFoodProb) {
-            return new AntWorker(this._x, this._y, this.size, maxStepsWithoutFood);
+            return new AntWorker(this._x, this._y, this.size, this.i, this.j, maxStepsWithoutFood);
         }
 
         // Если нет еды рядом, создаём муравья с вероятностью P2
         if (!hasNearbyFood && Math.random() < createAntWithoutFoodProb) {
-            return new AntWorker(this._x, this._y, this.size, maxStepsWithoutFood);
+            return new AntWorker(this._x, this._y, this.size, this.i, this.j, maxStepsWithoutFood);
         }
 
         return null;

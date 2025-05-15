@@ -1,6 +1,6 @@
 import { Queen } from "~/Queen/Queen";
 
-export type CellColor = 'red' | 'green' | 'blue' | 'yellow' | 'white';
+export type CellColor = 'red' | 'green' | 'blue' | 'yellow' | 'white' | 'purple' | 'brown';
 
 export class Cell {
     private _color: CellColor = 'white';
@@ -9,7 +9,7 @@ export class Cell {
     private _size: number;
     public i: number;
     public j: number;
-    public agent: 'queen' | 'ant' | 'good'|  null = null;
+    public agent: 'queen' | 'ant' | 'good' | 'food' | null = null;
 
     constructor( x: number, y: number, size: number = 50, i: number, j: number) {
         this.i = i;

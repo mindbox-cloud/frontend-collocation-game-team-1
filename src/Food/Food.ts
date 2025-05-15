@@ -1,9 +1,9 @@
 import { Cell } from '~/Cell/Cell';
 
 export class Food extends Cell {
-    constructor(x: number, y: number, size: number) {
-        super(x, y, size);
-        this._type = 'food';
+    constructor(x: number, y: number, size: number, i: number, j: number) {
+        super(x, y, size, i, j);
+        this.agent = 'food';
         this._color = 'yellow';
     }
 
@@ -11,8 +11,8 @@ export class Food extends Cell {
         super.draw(ctx);
         
         // Дополнительная отрисовка для еды
-        const centerX = this._position.x * this._cellSize + this._cellSize / 2;
-        const centerY = this._position.y * this._cellSize + this._cellSize / 2;
+        const centerX = this.x * this._cellSize + this._cellSize / 2;
+        const centerY = this.y * this._cellSize + this._cellSize / 2;
         const radius = this._cellSize / 6;
 
         ctx.beginPath();

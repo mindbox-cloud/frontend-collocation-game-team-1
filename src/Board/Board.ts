@@ -1,6 +1,8 @@
 import {Cell} from '~/Cell/Cell'
 import {Good} from '~/Good/Good'
 import {Queen} from '~/Queen/Queen'
+import {Food} from '~/Food/Food';
+import {AntWorker} from '~/AntWorker/AntWorker';
 
 interface BoardParams {
   canvas: HTMLCanvasElement
@@ -98,5 +100,98 @@ export class Board {
         this._board[i][j].draw(this._ctx)
       }
     }
+  }
+
+  public tick(): void {
+    // Обновляем состояние всех клеток
+    for (let i = 0; i < this._rows; i++) {
+      for (let j = 0; j < this._cols; j++) {
+        const cell = this._board[i][j];
+        
+        // Генерация еды в едохранилищах
+        if (cell.agent === 'good') {
+          // Случайная генерация еды
+          if (Math.random() < 0.1) { // 10% шанс генерации еды
+            const emptyNeighbors = this.getEmptyNeighbors(i, j);
+            if (emptyNeighbors.length > 0) {
+              const randomPos = emptyNeighbors[Math.floor(Math.random() * emptyNeighbors.length)];
+              const food = new Food(randomPos.x * this._cellSize, randomPos.y * this._cellSize, this._cellSize, randomPos.y, randomPos.x);
+              this._board[randomPos.y][randomPos.x] = food;
+            }
+          }
+        }
+
+        // Обновление маток
+        if (cell.agent === 'queen') {
+          const queen = cell as Queen;
+          queen.tick();
+
+          // Проверка наличия еды рядом
+          const hasNearbyFood = this.checkNearbyFood(i, j);
+          
+          // Попытка создания нового муравья
+          const ant = queen.createAnt(hasNearbyFood, this.createAntWithFoodProbability, this.createAntWithoutFoodProbability, this.antDeathSteps);
+          if (ant) {
+            const emptyNeighbors = this.getEmptyNeighbors(i, j);
+            if (emptyNeighbors.length > 0) {
+              const randomPos = emptyNeighbors[Math.floor(Math.random() * emptyNeighbors.length)];
+              this._board[randomPos.y][randomPos.x] = ant;
+              ant.drawAnt(this._ctx);
+            }
+          }
+        }
+
+        // Обновление муравьев
+        if (cell.agent === 'ant') {
+          const ant = cell as AntWorker;
+          ant.tick();
+        }
+      }
+    }
+
+    // Перерисовка доски
+    // this._drawBoard();
+    console.log(this._board);
+    
+  }
+
+  private getEmptyNeighbors(i: number, j: number): Array<{x: number, y: number}> {
+    const neighbors: Array<{x: number, y: number}> = [];
+    
+    for (let di = -1; di <= 1; di++) {
+      for (let dj = -1; dj <= 1; dj++) {
+        if (di === 0 && dj === 0) continue;
+        
+        const newI = i + di;
+        const newJ = j + dj;
+        
+        if (newI >= 0 && newI < this._rows && newJ >= 0 && newJ < this._cols) {
+          if (this._board[newI][newJ].agent === null) {
+            neighbors.push({x: newJ, y: newI});
+          }
+        }
+      }
+    }
+    
+    return neighbors;
+  }
+
+  private checkNearbyFood(i: number, j: number): boolean {
+    for (let di = -1; di <= 1; di++) {
+      for (let dj = -1; dj <= 1; dj++) {
+        if (di === 0 && dj === 0) continue;
+        
+        const newI = i + di;
+        const newJ = j + dj;
+        
+        if (newI >= 0 && newI < this._rows && newJ >= 0 && newJ < this._cols) {
+          if (this._board[newI][newJ].agent === 'food') {
+            return true;
+          }
+        }
+      }
+    }
+    
+    return false;
   }
 }
