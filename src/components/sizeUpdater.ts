@@ -1,8 +1,9 @@
 interface SizeUpdaterProps {
+    initialValue: number
     onChange: (size: number) => void
 }
-export const sizeUpdater = ({ onChange }: SizeUpdaterProps) => {
-    let size = 100
+export const sizeUpdater = ({ initialValue, onChange }: SizeUpdaterProps) => {
+    let size = initialValue
     
     const sizeUpdater = document.createElement('div')
     const sizeInput = document.createElement('input')
