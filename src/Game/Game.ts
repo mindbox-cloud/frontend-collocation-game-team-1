@@ -1,5 +1,5 @@
 import { Board } from "~/Board/Board";
-import {  CellColor } from "~/Cell";
+import {  CellColor } from "~/Cell/Cell";
 import { sizeUpdater } from "~/components/sizeUpdater";
 import { DEFAULT_SIZE } from "~/constants";
 export class Game {

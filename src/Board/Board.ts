@@ -1,4 +1,4 @@
-import {Cell} from '~/Cell'
+import {Cell} from '~/Cell/Cell'
 
 export class Board {
     _canvas: HTMLCanvasElement
