@@ -10,13 +10,14 @@ if (container) {
     canvas.height = 1000
     container.appendChild(canvas)
 
-    const board = new Board(ctx)
-    board.init()
+    const defaultSize = 100
 
-    let size = 100
+    const board = new Board(ctx)
+    board.init({ size: defaultSize })
+
     const sizeUpdaterElement = sizeUpdater({
-        initialValue: size,
-        onChange: (size) => board.updateBoardSize(size),
+        initialValue: defaultSize,
+        onChange: (size) => board.init({ size }),
     })
     container.appendChild(sizeUpdaterElement)
 }
