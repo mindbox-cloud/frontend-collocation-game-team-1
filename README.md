@@ -2,6 +2,6 @@
 
 ## Как собрать?
 
-nvm use 18
+nvm use 18 
 npm i
-npm run build
+npm run build 
