@@ -44,18 +44,20 @@ export class Board {
     this._canvas.height = this._cols * this._cellSize
     this._fillBoard()
     this._drawBoard()
+    this.createInitialGoods()
   }
 
   get board(): Cell[][] {
     return this._board
   }
 
-  private updateGoods() {
-    if (!this.goods.length) {
-        for (let i = 0; i < this.goodsCount; i++) {
+  public createInitialGoods() {
+    for (let i = 0; i < this.goodsCount; i++) {
+        this.goods.push(new Good(Math.random() * this._rows * this._cellSize, Math.random() * this._cols * this._cellSize, this._cellSize))
+    }
 
-            this.goods.push(new Good(Math.random() * this._rows * this._cellSize, Math.random() * this._cols * this._cellSize, this._cellSize))
-        }
+    for (let i = 0; i < this.goods.length; i++) {
+        this.goods[i].draw(this._ctx)
     }
   }
 
@@ -74,18 +76,11 @@ export class Board {
   }
 
   _drawBoard() {
-    this.updateGoods()
-    console.log(this.goods)
-
     this._ctx.beginPath()
     for (let i = 0; i < this._board.length; i++) {
       for (let j = 0; j < this._board[i].length; j++) {
         this._board[i][j].draw(this._ctx)
       }
-    }
-
-    for (let i = 0; i < this.goods.length; i++) {
-      this.goods[i].draw(this._ctx)
     }
   }
 }
