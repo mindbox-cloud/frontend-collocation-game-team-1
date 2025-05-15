@@ -1,3 +1,5 @@
+import { test } from './test'
+
 const container = document.getElementById('app')
 
 if (container) {
