@@ -19,7 +19,7 @@ export class Board {
     }
 
     updateBoardSize(size: number) {
-
+        console.log('updateBoardSize called!', size)
     }
 
     fillBoard() {
