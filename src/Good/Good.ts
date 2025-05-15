@@ -3,6 +3,7 @@ import { Cell } from "~/Cell/Cell";
 export class Good extends Cell {
     constructor(x: number, y: number, size: number, i: number, j: number) {
         super(x, y, size, i, j);
+        this.agent = 'good'
     }
 
     public drawGood(ctx: CanvasRenderingContext2D): void {
