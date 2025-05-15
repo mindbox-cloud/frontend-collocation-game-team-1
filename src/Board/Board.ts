@@ -9,7 +9,7 @@ export class Board {
     constructor(ctx: CanvasRenderingContext2D) {
         this.ctx = ctx
     }
-    init({ size }: { size: number }) {
+    init({ size = 100 }: { size: number }) {
         this.fillBoard()
         this.drawBoard()
     }
