@@ -1,13 +1,16 @@
 import { Board } from "~/Board/Board";
 import {  CellColor } from "~/Cell";
-
+import { sizeUpdater } from "~/components/sizeUpdater";
+import { DEFAULT_SIZE } from "~/constants";
 export class Game {
     public board: Board;
     private isRunning: boolean = false;
     private tickInterval: number = 1000; // 1 second interval
     private intervalId: ReturnType<typeof setInterval> | null = null;
+    private container: HTMLElement;
 
     constructor(container: HTMLElement) {
+        this.container = container;
         const canvas = document.createElement('canvas')
         container.appendChild(canvas)
         this.board = new Board(canvas);
@@ -16,7 +19,14 @@ export class Game {
     public start(): void {
         if (this.isRunning) return;
         
-        this.board.init({ size: 100 });
+        this.board.init({ size: DEFAULT_SIZE });
+
+        const sizeUpdaterElement = sizeUpdater({
+            initial: DEFAULT_SIZE,
+            onChange: (size) => this.board.init({ size }),
+        })
+        this.container.appendChild(sizeUpdaterElement)
+
         this.isRunning = true;
         
         // Start the ticker

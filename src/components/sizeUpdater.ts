@@ -1,27 +1,41 @@
 interface SizeUpdaterProps {
-    initialValue: number
-    onChange: (size: number) => void
+    initial: { n: number, m: number }
+    onChange: ({ n, m }: { n: number, m: number }) => void
 }
-export const sizeUpdater = ({ initialValue, onChange }: SizeUpdaterProps) => {
-    let size = initialValue
-    
-    const sizeUpdater = document.createElement('div')
-    const sizeInput = document.createElement('input')
-    sizeInput.type = 'number'
-    sizeInput.value = size.toString()
+export const sizeUpdater = ({ initial, onChange }: SizeUpdaterProps) => {
+    let n = initial.n
+    let m = initial.m
 
-    sizeInput.addEventListener('change', () => {
-        size = parseInt(sizeInput.value)
+    const sizeUpdater = document.createElement('div')
+
+    // n input
+    const nInput = document.createElement('input')
+    nInput.type = 'number'
+    nInput.value = n.toString()
+
+    nInput.addEventListener('change', () => {
+        n = parseInt(nInput.value)
     })
 
-    sizeUpdater.appendChild(sizeInput)
+    sizeUpdater.appendChild(nInput)
+
+    // m input
+    const mInput = document.createElement('input')
+    mInput.type = 'number'
+    mInput.value = m.toString()
+
+    mInput.addEventListener('change', () => {
+        m = parseInt(mInput.value)
+    })
+
+    sizeUpdater.appendChild(mInput)
 
     const sizeApplyButton = document.createElement('button')
     sizeApplyButton.textContent = 'Apply size'
     sizeUpdater.appendChild(sizeApplyButton)
 
     sizeApplyButton.addEventListener('click', () => {
-        onChange(size)
+        onChange({ n, m })
     })
 
     return sizeUpdater
