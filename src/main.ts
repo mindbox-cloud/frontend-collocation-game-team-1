@@ -1,12 +1,11 @@
+import { sizeUpdater } from './components/sizeUpdater'
 import { Board } from "./Board/Board"
 
 const container = document.getElementById('app')
 
 if (container) {
-    const sizeInput = document.createElement('input')
-    sizeInput.type = 'number'
-    sizeInput.value = '100'
-    container.appendChild(sizeInput)
+    const sizeUpdaterElement = sizeUpdater({ onChange: console.log })
+    container.appendChild(sizeUpdaterElement)
 
     const canvas = document.createElement('canvas')
     const ctx = canvas.getContext('2d') as CanvasRenderingContext2D
