@@ -63,7 +63,7 @@ export class Game {
   }
 
   private tick(): void {
-    this.board._drawBoard()
+    // this.board._drawBoard()
   }
 
   public setTickInterval(interval: number): void {

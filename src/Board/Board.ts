@@ -62,22 +62,13 @@ export class Board {
       cellsToReplace.push(this._board[randomRow][randomCol]);
     }
     cellsToReplace.forEach(cell => {
-      const goods = new Good(cell.x, cell.y, this._cellSize);
-      const rowIndex = this._board.findIndex(row => row.includes(cell));
-      const colIndex = this._board[rowIndex].findIndex(c => c === cell);
-      this._board[rowIndex][colIndex] = goods;
+      const goods = new Good(cell.x, cell.y, this._cellSize, cell.i, cell.j);
+      goods.drawGood(this._ctx);
+      this._board[cell.j][cell.i] = goods;
     });
+    console.log(this._board, cellsToReplace);
+    
   }
-
-//   public createInitialGoods() {
-//     for (let i = 0; i < this.goodsCount; i++) {
-//         this.goods.push(new Good(Math.random() * this._rows * this._cellSize, Math.random() * this._cols * this._cellSize, this._cellSize))
-//     }
-
-//     for (let i = 0; i < this.goods.length; i++) {
-//         this.goods[i].draw(this._ctx)
-//     }
-//   }
 
   _updateBoardSize(size: { n: number, m: number }) {
     this._rows = size.n
@@ -88,7 +79,7 @@ export class Board {
     for (let i = 0; i < this._rows; i++) {
       this._board[i] = []
       for (let j = 0; j < this._cols; j++) {
-        this._board[i][j] = new Cell(i * this._cellSize, j * this._cellSize, this._cellSize)
+        this._board[i][j] = new Cell(i * this._cellSize, j * this._cellSize, this._cellSize, i, j)
       }
     }
   }

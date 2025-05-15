@@ -1,12 +1,19 @@
+import { Queen } from "~/Queen/Queen";
+
 export type CellColor = 'red' | 'green' | 'blue' | 'yellow' | 'white';
 
 export class Cell {
     private _color: CellColor = 'white';
-    private _x: number;
-    private _y: number;
+    public _x: number;
+    public _y: number;
     private _size: number;
+    public i: number;
+    public j: number;
+    public agent: 'queen' | 'ant' | 'good'|  null = null;
 
-    constructor( x: number, y: number, size: number = 50) {
+    constructor( x: number, y: number, size: number = 50, i: number, j: number) {
+        this.i = i;
+        this.j = j;
         this._x = x;
         this._y = y;
         this._size = size;
