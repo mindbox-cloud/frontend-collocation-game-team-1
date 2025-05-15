@@ -15,5 +15,5 @@ if (container) {
     container.appendChild(canvas)
 
     const board = new Board(ctx)
-    board.draw()
+    board.init()
 }
