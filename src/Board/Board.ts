@@ -123,17 +123,23 @@ export class Board {
         const cell = this._board[i][j];
         
         // Генерация еды в едохранилищах
-        if (cell.agent === 'good') {
-          // Случайная генерация еды
-          if (Math.random() < 0.1) { // 10% шанс генерации еды
-            const emptyNeighbors = this.getEmptyNeighbors(i, j);
-            if (emptyNeighbors.length > 0) {
-              const randomPos = emptyNeighbors[Math.floor(Math.random() * emptyNeighbors.length)];
-              const food = new Food(randomPos.x * this._cellSize, randomPos.y * this._cellSize, this._cellSize, randomPos.y, randomPos.x);
-              this._board[randomPos.y][randomPos.x] = food;
-            }
-          }
-        }
+        // if (cell.agent === 'good') {
+        //     // const food = new Good(cell.x * this._cellSize, cell.y * this._cellSize, this._cellSize, cell.y, cell.x);
+        //     // food.incrementItemsCount()
+        //     // food.drawGood(this._ctx);
+        //     const emptyNeighbors = this.getEmptyNeighbors(i, j);
+        //     const randomPos = emptyNeighbors[Math.floor(Math.random() * emptyNeighbors.length)];
+        //     const food = new Good(randomPos.x * this._cellSize, randomPos.y * this._cellSize, this._cellSize, randomPos.y, randomPos.x);
+
+        //     food.drawGood(this._ctx);
+
+        //   // Случайная генерация еды
+        //   if (Math.random() < 0.1) { // 10% шанс генерации еды
+        //     if (emptyNeighbors.length > 0) {
+        //       food.incrementItemsCount()
+        //     }
+        //   }
+        // }
 
         // Обновление маток
         if (cell.agent === 'queen') {

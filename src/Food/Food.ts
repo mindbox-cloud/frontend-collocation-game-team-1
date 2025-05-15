@@ -11,9 +11,9 @@ export class Food extends Cell {
         super.draw(ctx);
         
         // Дополнительная отрисовка для еды
-        const centerX = this.x * this._cellSize + this._cellSize / 2;
-        const centerY = this.y * this._cellSize + this._cellSize / 2;
-        const radius = this._cellSize / 6;
+        const centerX = this.x * this.size + this.size / 2;
+        const centerY = this.y * this.size + this.size / 2;
+        const radius = this.size / 6;
 
         ctx.beginPath();
         ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);

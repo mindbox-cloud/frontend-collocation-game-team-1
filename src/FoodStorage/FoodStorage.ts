@@ -2,9 +2,9 @@ import { Cell } from '~/Cell/Cell';
 import { Position } from '~/types';
 
 export class FoodStorage extends Cell {
-    constructor(x: number, y: number, size: number) {
-        super(x, y, size);
-        this._type = 'foodStorage';
+    constructor(x: number, y: number, size: number, i: number, j: number) {
+        super(x, y, size, i, j);
+        this.agent = 'foodStorage';
         this._color = 'green';
     }
 
@@ -17,9 +17,9 @@ export class FoodStorage extends Cell {
         super.draw(ctx);
         
         // Дополнительная отрисовка для едохранилища
-        const centerX = this._position.x * this._cellSize + this._cellSize / 2;
-        const centerY = this._position.y * this._cellSize + this._cellSize / 2;
-        const radius = this._cellSize / 4;
+        const centerX = this._x * this._size + this._size / 2;
+        const centerY = this._y * this._size + this._size / 2;
+        const radius = this._size / 4;
 
         ctx.beginPath();
         ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
