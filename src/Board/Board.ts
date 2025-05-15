@@ -1,19 +1,40 @@
 import {Cell} from '~/Cell/Cell'
 
+interface BoardParams {
+  canvas: HTMLCanvasElement
+  queensCount: number
+  createAntWithFoodProbability: number
+  createAntWithoutFoodProbability: number
+  goodsCount: number
+  queenDeathSteps: number
+  antDeathSteps: number
+}
 export class Board {
-    _canvas: HTMLCanvasElement
+  _canvas: HTMLCanvasElement
   _board: Cell[][] = []
   _rows: number = 100
   _cols: number = 100
   _cellSize: number = 20
   _ctx: CanvasRenderingContext2D
+  private queensCount: number
+  private createAntWithFoodProbability: number
+  private createAntWithoutFoodProbability: number
+  private goodsCount: number
+  private queenDeathSteps: number
+  private antDeathSteps: number
 
-  constructor(canvas: HTMLCanvasElement) {
-    this._canvas = canvas
-    this._ctx = canvas.getContext('2d') as CanvasRenderingContext2D
+  constructor(params: BoardParams) {
+    this.queensCount = params.queensCount
+    this.createAntWithFoodProbability = params.createAntWithFoodProbability
+    this.createAntWithoutFoodProbability = params.createAntWithoutFoodProbability
+    this.goodsCount = params.goodsCount    
+    this.queenDeathSteps = params.queenDeathSteps
+    this.antDeathSteps = params.antDeathSteps
+    this._canvas = params.canvas
+    this._ctx = this._canvas.getContext('2d') as CanvasRenderingContext2D
   }
 
-  init({ size }: { size: { n: number, m: number } }) {
+  init({size}: {size: {n: number; m: number}}) {
     this._updateBoardSize(size)
     this._canvas.width = this._rows * this._cellSize
     this._canvas.height = this._cols * this._cellSize
@@ -25,7 +46,7 @@ export class Board {
     return this._board
   }
 
-  _updateBoardSize(size: { n: number, m: number }) {
+  _updateBoardSize(size: {n: number; m: number}) {
     this._rows = size.n
     this._cols = size.m
   }
