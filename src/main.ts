@@ -5,14 +5,13 @@ const container = document.getElementById('app')
 
 if (container) {
     const canvas = document.createElement('canvas')
-    const ctx = canvas.getContext('2d') as CanvasRenderingContext2D
     canvas.width = 1000
     canvas.height = 1000
     container.appendChild(canvas)
 
     const defaultSize = 100
 
-    const board = new Board(ctx)
+    const board = new Board(canvas)
     board.init({ size: defaultSize })
 
     const sizeUpdaterElement = sizeUpdater({
