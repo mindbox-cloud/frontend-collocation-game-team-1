@@ -44,14 +44,14 @@ export class Board {
     this._canvas.height = this._cols * this._cellSize
     this._fillBoard()
     this._drawBoard()
-    this.createInitialCells()
+    this.createInitialGoods()
   }
 
   get board(): Cell[][] {
     return this._board
   }
 
-  createInitialCells() {
+  createInitialGoods() {
     const cellsToReplace: Cell[] = [];
     for (let i = 0; i < this.goodsCount; i++) {
       let randomRow: number, randomCol: number;
@@ -64,10 +64,9 @@ export class Board {
     cellsToReplace.forEach(cell => {
       const goods = new Good(cell.x, cell.y, this._cellSize, cell.i, cell.j);
       goods.drawGood(this._ctx);
-      this._board[cell.j][cell.i] = goods;
+      this._board[cell.i][cell.j] = goods;
     });
     console.log(this._board, cellsToReplace);
-    
   }
 
   _updateBoardSize(size: { n: number, m: number }) {
@@ -79,7 +78,7 @@ export class Board {
     for (let i = 0; i < this._rows; i++) {
       this._board[i] = []
       for (let j = 0; j < this._cols; j++) {
-        this._board[i][j] = new Cell(i * this._cellSize, j * this._cellSize, this._cellSize, i, j)
+        this._board[i][j] = new Cell(j * this._cellSize, i * this._cellSize, this._cellSize, i, j)
       }
     }
   }
