@@ -67,7 +67,7 @@ export class Board {
     cellsToReplace.forEach((cell) => {
         let entity: Good | Queen;
         if (entityType === 'queen') {
-          entity = new Queen(cell.x, cell.y, this._cellSize, cell.i, cell.j);
+          entity = new Queen(cell.x, cell.y, this._cellSize, cell.i, cell.j, this.queenDeathSteps);
           entity.drawQueen(this._ctx);
         } else {
           entity = new Good(cell.x, cell.y, this._cellSize, cell.i, cell.j);
