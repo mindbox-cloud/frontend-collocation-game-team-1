@@ -3,6 +3,7 @@ node_modules/
 
 # Build output
 build/
+dist/
 *.js.map
 
 # IDE and editor files
