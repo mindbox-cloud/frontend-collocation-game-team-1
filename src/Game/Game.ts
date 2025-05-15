@@ -64,6 +64,7 @@ export class Game {
 
   private tick(): void {
     this.board.tick()
+    this.board.step()
   }
 
   public setTickInterval(interval: number): void {
