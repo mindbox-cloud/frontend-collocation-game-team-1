@@ -13,7 +13,7 @@ export class Board {
     this._ctx = canvas.getContext('2d') as CanvasRenderingContext2D
   }
 
-  init({ size }: { size: number }) {
+  init({ size }: { size: { n: number, m: number } }) {
     this._updateBoardSize(size)
     this._canvas.width = this._rows * this._cellSize
     this._canvas.height = this._cols * this._cellSize
@@ -25,9 +25,9 @@ export class Board {
     return this._board
   }
 
-  _updateBoardSize(size: number) {
-    this._rows = size
-    this._cols = size
+  _updateBoardSize(size: { n: number, m: number }) {
+    this._rows = size.n
+    this._cols = size.m
   }
 
   _fillBoard() {
