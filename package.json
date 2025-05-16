@@ -36,7 +36,7 @@
     "ts-loader": "9.5.1",
     "typescript": "5.6.2",
     "typescript-eslint": "8.29.1",
-    "vite": "6.2.6",
+    "vite": "6.3.5",
     "vite-plugin-bundlesize": "0.2.0",
     "vite-tsconfig-paths": "5.1.4"
   }
